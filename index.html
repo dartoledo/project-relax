@@ -21,6 +21,10 @@
 <body>
   <!-- ambient layers -->
   <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="scene-layer" id="sceneLayer" aria-hidden="true">
+    <img id="sceneImg" alt="">
+    <div class="scene-veil"></div>
+  </div>
   <canvas id="fireflies" aria-hidden="true"></canvas>
   <div class="sleep-overlay" aria-hidden="true"></div>
 
@@ -112,6 +116,19 @@
           <span class="quick-title">Ambience</span>
           <span class="quick-sub muted">Layered soundscapes</span>
         </button>
+      </div>
+
+      <h2>Scenes</h2>
+      <p class="sub">A living backdrop — pick a corner of the natural world. It drifts slowly, stays out of your way, and works offline.</p>
+
+      <div class="grid scene-grid" id="sceneGrid" role="group" aria-label="Backdrop scenes">
+        <button class="scene-card glass" data-scene="aurora" aria-pressed="false"><span class="scene-glyph">✦</span><span class="scene-name">Aurora</span></button>
+        <button class="scene-card glass" data-scene="mistyPines" aria-pressed="false"><img src="img/scene-misty-pines.jpg" alt="Fog drifting through a pine forest"><span class="scene-name">Misty Pines</span></button>
+        <button class="scene-card glass" data-scene="oceanDusk" aria-pressed="false"><img src="img/scene-ocean-dusk.jpg" alt="Sunset over a calm ocean"><span class="scene-name">Ocean Dusk</span></button>
+        <button class="scene-card glass" data-scene="deerDawn" aria-pressed="false"><img src="img/scene-deer-dawn.jpg" alt="A young deer in a misty meadow"><span class="scene-name">Deer at Dawn</span></button>
+        <button class="scene-card glass" data-scene="groveOwl" aria-pressed="false"><img src="img/scene-owl-moonlight.jpg" alt="An owl perched on a branch"><span class="scene-name">Grove Owl</span></button>
+        <button class="scene-card glass" data-scene="foxMeadow" aria-pressed="false"><img src="img/scene-fox-meadow.jpg" alt="Foxes foraging in tall grass"><span class="scene-name">Fox Meadow</span></button>
+        <button class="scene-card glass" data-scene="mistyRidges" aria-pressed="false"><img src="img/scene-alpine-lake.jpg" alt="Layered mountain ridges under cloud"><span class="scene-name">Misty Ridges</span></button>
       </div>
 
       <div class="row now-playing">

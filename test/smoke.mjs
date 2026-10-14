@@ -175,6 +175,15 @@ await sleep(20);
 ok(d.documentElement.dataset.theme === "ocean", "theme switch to Ocean applies");
 ok(oceanSwatch.classList.contains("active"), "active swatch highlighted");
 
+// --- scenes (living backdrops) ---
+app.selectScene("oceanDusk");
+await sleep(20);
+ok(d.querySelector('#sceneGrid .scene-card[data-scene="oceanDusk"]').classList.contains("active"), "scene switch highlights Ocean Dusk card");
+ok(w.document.body.classList.contains("scene-photo"), "photo scene enables the backdrop layer");
+app.selectScene("aurora");
+await sleep(20);
+ok(!w.document.body.classList.contains("scene-photo"), "Aurora scene hides the photo layer");
+
 // --- settings: sleep mode + idle select ---
 const sleepSwitch = d.getElementById("sleepSwitch");
 sleepSwitch.checked = false;

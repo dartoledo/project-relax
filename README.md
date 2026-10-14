@@ -10,6 +10,7 @@ A relaxing, premium web experience. Open it, breathe, and let the noise go.
 - **Zen garden** — drag to rake ripples into the sand; watch them fade. One tap resets the garden.
 - **Mood check-in & stats** — daily mood log with a 7-day strip, focus minutes today/total, breathing cycles, all persisted locally.
 - **Five ambient themes** — Dusk, Forest, Ocean, Candlelight, Midnight, each re-tinting the whole scene (including the browser tab color).
+- **Living scenes** — full-bleed nature & wildlife backdrops (Misty Pines, Ocean Dusk, Deer at Dawn, Grove Owl, Fox Meadow, Misty Ridges) with a slow Ken Burns drift, soft veil for readability and instant crossfades; pick one from the Home tab, or keep the original Aurora. Cached for offline use.
 - **Sleep mode** — after you go idle the room dims and sounds soften to a murmur; any movement wakes it gently.
 - **Daily wisdom** — a rotating quote with shuffle & copy-to-clipboard.
 - **PWA** — installable, offline-capable (service worker), app icons, standalone display.

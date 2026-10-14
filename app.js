@@ -19,6 +19,7 @@ const reducedMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: 
 const STORE_KEY = "serene.v1";
 const DEFAULTS = {
   theme: "dusk",
+  scene: "mistyPines",
   masterVolume: 70,
   muted: false,
   soundVolumes: { rain: 70, ocean: 65, chimes: 55, fire: 60, birds: 50, white: 40, pink: 35, brown: 55 },
@@ -64,6 +65,38 @@ function applyTheme(name) {
   $$('.swatch').forEach(b => b.classList.toggle("active", b.dataset.theme === name));
 }
 $$('.swatch').forEach(b => b.addEventListener("click", () => applyTheme(b.dataset.theme)));
+
+/* ---------------- scenes (living backdrops) ---------------- */
+const SCENES = [
+  { id: "aurora",      name: "Aurora",       file: "" },
+  { id: "mistyPines",  name: "Misty Pines",  file: "img/scene-misty-pines.jpg" },
+  { id: "oceanDusk",   name: "Ocean Dusk",   file: "img/scene-ocean-dusk.jpg" },
+  { id: "deerDawn",    name: "Deer at Dawn", file: "img/scene-deer-dawn.jpg" },
+  { id: "groveOwl",    name: "Grove Owl",    file: "img/scene-owl-moonlight.jpg" },
+  { id: "foxMeadow",   name: "Fox Meadow",   file: "img/scene-fox-meadow.jpg" },
+  { id: "mistyRidges", name: "Misty Ridges", file: "img/scene-alpine-lake.jpg" },
+];
+function selectScene(id, silent) {
+  const sc = SCENES.find(s => s.id === id) || SCENES[1];
+  S.scene = sc.id; save();
+  document.body.classList.toggle("scene-photo", !!sc.file);
+  if (sc.file) {
+    const img = $("#sceneImg");
+    if (img.getAttribute("src") !== sc.file) {
+      img.classList.remove("loaded");
+      img.src = sc.file;
+      const show = () => img.classList.add("loaded");
+      if (img.complete && img.naturalWidth) show(); else img.addEventListener("load", show, { once: true });
+    }
+  }
+  $$("#sceneGrid .scene-card").forEach(c => {
+    const on = c.dataset.scene === sc.id;
+    c.classList.toggle("active", on);
+    c.setAttribute("aria-pressed", String(on));
+  });
+  if (!silent) toast("Scene — " + sc.name);
+}
+$$("#sceneGrid .scene-card").forEach(c => c.addEventListener("click", () => selectScene(c.dataset.scene)));
 
 /* ---------------- tabs ---------------- */
 const PANES = { home: "#pane-home", sounds: "#pane-sounds", focus: "#pane-focus", breathe: "#pane-breathe", garden: "#pane-garden", stats: "#pane-stats" };
@@ -974,12 +1007,14 @@ if (!reducedMotion && matchMedia) {
 /* ---------------- init ---------------- */
 greet();
 applyTheme(S.theme);
+selectScene(S.scene || "mistyPines", true);
 renderNowPlaying();
 
 /* expose a small API for tests / console play */
 window.sereneApp = {
   settings: S, stats: T, timer,
   engine, toggleSound, applyPreset, setTab,
+  selectScene, SCENES,
   startPause, resetTimer, selectFocusPreset,
   startBreathing, stopBreathing, selectBreathPattern,
   addRipple, garden: { reset() { ripples.length = 0; } },

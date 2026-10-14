@@ -1,5 +1,5 @@
 /* Serene — service worker (offline support) */
-const CACHE = "serene-v2";
+const CACHE = "serene-v3";
 const ASSETS = [
   "./",
   "./index.html",
@@ -8,6 +8,12 @@ const ASSETS = [
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
+  "./img/scene-misty-pines.jpg",
+  "./img/scene-ocean-dusk.jpg",
+  "./img/scene-deer-dawn.jpg",
+  "./img/scene-owl-moonlight.jpg",
+  "./img/scene-fox-meadow.jpg",
+  "./img/scene-alpine-lake.jpg",
 ];
 
 self.addEventListener("install", event => {

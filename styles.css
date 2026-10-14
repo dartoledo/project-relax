@@ -406,6 +406,52 @@ select {
 .shortcut-list { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 10px; font-size: .86rem; color: var(--muted); line-height: 1.9; }
 .noscript { position: fixed; inset: auto 0 0 0; z-index: 9; padding: 12px; text-align: center; background: var(--bg-b); }
 
+/* ---------- scene layer — living backdrops ---------- */
+.scene-layer { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+body:not(.scene-photo) .scene-layer { display: none; }
+.scene-layer img {
+  width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity 1.1s ease;
+  transform-origin: 55% 45%;
+  animation: sceneDrift 46s ease-in-out infinite alternate;
+  filter: saturate(1.02) brightness(.86);
+}
+.scene-layer img.loaded { opacity: 1; }
+.scene-veil {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(7,9,20,.45) 0%, rgba(7,9,20,.06) 34%, rgba(7,9,20,.18) 62%, rgba(7,9,20,.58) 100%);
+}
+@keyframes sceneDrift {
+  from { transform: scale(1.04) translate3d(0, 0, 0); }
+  to   { transform: scale(1.14) translate3d(-1.8%, -1.2%, 0); }
+}
+body.scene-photo .aurora { opacity: .25; transition: opacity 2s ease; }
+
+/* ---------- scene picker cards ---------- */
+.scene-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin: 4px 0 26px; }
+.scene-card {
+  position: relative; overflow: hidden; cursor: pointer;
+  aspect-ratio: 4 / 3; padding: 0; text-align: left; color: var(--text); font: inherit;
+  background: rgba(255,255,255,.05); border: 1px solid var(--glass-brd); border-radius: 16px;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.scene-card:hover { transform: translateY(-3px); box-shadow: 0 24px 60px -28px rgba(0,0,0,.7); }
+.scene-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .7s ease; }
+.scene-card:hover img { transform: scale(1.06); }
+.scene-glyph {
+  position: absolute; inset: 0; display: grid; place-items: center; font-size: 2rem; color: var(--accent);
+  background: radial-gradient(130px 95px at 30% 25%, var(--glow-a), transparent 70%), rgba(255,255,255,.04);
+}
+.scene-name {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 20px 12px 10px;
+  font-size: .8rem; letter-spacing: .02em;
+  background: linear-gradient(transparent, rgba(5,8,18,.78));
+}
+.scene-card.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 60%, transparent), 0 18px 44px -22px var(--glow-a);
+}
+
 /* ---------- responsive ---------- */
 @media (max-width: 760px) {
   .rail {
