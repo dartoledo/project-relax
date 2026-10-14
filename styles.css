@@ -128,8 +128,9 @@ body.sleeping .aurora { opacity: .35; transition: opacity 2.4s ease; }
   box-shadow: 0 6px 18px -6px var(--glow-a);
 }
 .brand-name { font-size: 1.05rem; }
-.sleep-indicator { font-size: 1rem; color: var(--accent-2); animation: pulse 3s ease-in-out infinite; }
-@keyframes pulse { 50% { opacity: .4; } }
+.sleep-indicator { font-size: 1rem; color: var(--accent-2); animation: pulse 4.5s ease-in-out infinite; }
+/* gentle breath, not a blink */
+@keyframes pulse { 50% { opacity: .55; } }
 .topbar-actions { display: flex; align-items: center; gap: 8px; }
 .theme-swatches { display: flex; gap: 6px; margin-right: 6px; }
 .swatch {
@@ -280,14 +281,15 @@ body.sleeping .aurora { opacity: .35; transition: opacity 2.4s ease; }
 .wave { display: flex; gap: 3px; height: 14px; align-items: flex-end; margin: 10px 0 8px; opacity: .5; transition: opacity .3s; }
 .sound-card.on .wave { opacity: 1; }
 .wave i {
-  width: 3px; border-radius: 2px; background: var(--accent-2); height: 30%;
-  animation: wave 1.6s ease-in-out infinite;
+  width: 3px; border-radius: 2px; background: var(--accent-2); height: 40%;
+  /* slow, small-amplitude sway — the old 1.6 s 30→95 % bounce was the last rapid pulse on the page */
+  animation: wave 3.4s ease-in-out infinite;
 }
 .sound-card:not(.on) .wave i { animation-play-state: paused; }
 .wave i:nth-child(2) { animation-delay: .2s; } .wave i:nth-child(3) { animation-delay: .45s; }
 .wave i:nth-child(4) { animation-delay: .1s; } .wave i:nth-child(5) { animation-delay: .6s; }
 .wave i:nth-child(6) { animation-delay: .3s; } .wave i:nth-card(7) {}
-@keyframes wave { 50% { height: 95%; } }
+@keyframes wave { 50% { height: 78%; } }
 .sound-card input[type="range"] {
   width: 100%; margin-top: 4px; accent-color: var(--accent);
 }
