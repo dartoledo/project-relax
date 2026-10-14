@@ -74,16 +74,17 @@ kbd {
   position: absolute; width: 55vmax; height: 55vmax; border-radius: 50%;
   filter: blur(60px); opacity: .5;
 }
-.aurora i:nth-child(1) { background: var(--glow-a); top: -20vmax; right: -10vmax; animation: drift1 52s ease-in-out infinite alternate; }
-.aurora i:nth-child(2) { background: var(--glow-b); bottom: -22vmax; left: -8vmax; animation: drift2 64s ease-in-out infinite alternate; }
+.aurora i:nth-child(1) { background: var(--glow-a); top: -20vmax; right: -10vmax; animation: drift1 70s ease-in-out infinite alternate; }
+.aurora i:nth-child(2) { background: var(--glow-b); bottom: -22vmax; left: -8vmax; animation: drift2 85s ease-in-out infinite alternate; }
 .aurora i:nth-child(3) {
   width: 38vmax; height: 38vmax; background: var(--accent); opacity: .12;
-  top: 30%; left: 45%; animation: drift3 76s ease-in-out infinite alternate;
+  top: 30%; left: 45%; animation: drift3 105s ease-in-out infinite alternate;
 }
-/* slow, small-radius drift — the glow settles instead of roaming */
-@keyframes drift1 { to { transform: translate(-5vmax, 4vmax) scale(1.08); } }
-@keyframes drift2 { to { transform: translate(4vmax, -3vmax) scale(1.05); } }
-@keyframes drift3 { to { transform: translate(-7vmax, 5vmax); } }
+/* very slow pure translation — no scale (scaling a blurred blob reads as pulsing),
+   long enough that the glow simply settles */
+@keyframes drift1 { to { transform: translate(-6vmax, 4vmax); } }
+@keyframes drift2 { to { transform: translate(5vmax, -4vmax); } }
+@keyframes drift3 { to { transform: translate(-8vmax, 6vmax); } }
 
 #fireflies { position: fixed; inset: 0; z-index: 1; pointer-events: none; transition: opacity 1.6s ease; }
 /* quiet the drifting specks over a photo so the backdrop reads as still */
@@ -208,7 +209,10 @@ body.sleeping .aurora { opacity: .35; transition: opacity 2.4s ease; }
 
 .now-playing { margin-top: 6px; padding: 10px 14px; border-radius: 999px; background: var(--glass); border: 1px solid var(--glass-brd); color: var(--muted); font-size: .85rem; width: fit-content; }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex: none; transition: background .3s, box-shadow .3s; }
-.now-playing.live .dot { background: #6fe8a8; box-shadow: 0 0 12px #6fe8a8; animation: pulse 2.4s ease-in-out infinite; }
+/* slow “breathing” glow — ~10 breaths/min, matching the coherent 5·5 pattern;
+   the old 2.4 s blink (down to 40 %) felt frantic next to everything else */
+.now-playing.live .dot { background: #6fe8a8; box-shadow: 0 0 12px #6fe8a8; animation: dotBreathe 6s ease-in-out infinite; }
+@keyframes dotBreathe { 50% { opacity: .55; } }
 
 /* ---------- chips / buttons ---------- */
 .chip {
