@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en" data-theme="dusk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Serene — A Pocket Sanctuary</title>
+  <meta name="description" content="A calming digital sanctuary: layered ambient soundscapes, a focus timer, breathing coach, zen garden and mood journal. Everything runs in your browser, offline included.">
+  <meta name="theme-color" content="#1c2340">
+  <meta property="og:title" content="Serene — A Pocket Sanctuary">
+  <meta property="og:description" content="Ambient soundscapes, focus timer, breathing coach and a zen garden. Calm, on demand.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- ambient layers -->
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <canvas id="fireflies" aria-hidden="true"></canvas>
+  <div class="sleep-overlay" aria-hidden="true"></div>
+
+  <!-- top bar -->
+  <header class="topbar glass">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      <span class="brand-name">Serene</span>
+      <span class="sleep-indicator" id="sleepIndicator" hidden title="Sleep mode — dimmed">☾</span>
+    </div>
+    <div class="topbar-actions">
+      <div class="theme-swatches" role="group" aria-label="Theme">
+        <button class="swatch sw-dusk active" data-theme="dusk" title="Dusk"></button>
+        <button class="swatch sw-forest" data-theme="forest" title="Forest"></button>
+        <button class="swatch sw-ocean" data-theme="ocean" title="Ocean"></button>
+        <button class="swatch sw-candle" data-theme="candle" title="Candlelight"></button>
+        <button class="swatch sw-midnight" data-theme="midnight" title="Midnight"></button>
+      </div>
+      <button class="icon-btn" id="sleepBtn" aria-pressed="false" title="Toggle sleep mode (auto-dim when idle)">
+        <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <button class="icon-btn" id="installBtn" hidden title="Install Serene">
+        <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>
+      </button>
+      <button class="icon-btn" id="fsBtn" title="Fullscreen (F)">
+        <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- side rail navigation -->
+  <nav class="rail glass" role="tablist" aria-label="Sections">
+    <button class="tab active" data-tab="home" role="tab" aria-selected="true" title="Home (H)">
+      <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.8V21h5v-6h4v6h5V9.8"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="tab" data-tab="sounds" role="tab" aria-selected="false" title="Ambience (S)">
+      <svg viewBox="0 0 24 24"><path d="M2 9c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-2 5 0"/><path d="M2 15c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-2 5 0"/></svg>
+      <span>Ambience</span>
+    </button>
+    <button class="tab" data-tab="focus" role="tab" aria-selected="false" title="Focus (T)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.8 2.8M9.5 2.5h5"/></svg>
+      <span>Focus</span>
+    </button>
+    <button class="tab" data-tab="breathe" role="tab" aria-selected="false" title="Breathe (B)">
+      <svg viewBox="0 0 24 24"><path d="M3 8.5h10.5a3 3 0 1 0-3-3"/><path d="M3 12.5h14.5a3 3 0 1 1-3 3"/><path d="M3 16.5h6"/></svg>
+      <span>Breathe</span>
+    </button>
+    <button class="tab" data-tab="garden" role="tab" aria-selected="false" title="Zen garden (G)">
+      <svg viewBox="0 0 24 24"><path d="M12 3c3.2 4.2 6 6.5 6 9.8a6 6 0 0 1-12 0C6 9.5 8.8 7.2 12 3z"/><path d="M12 21v-5"/></svg>
+      <span>Garden</span>
+    </button>
+    <button class="tab" data-tab="stats" role="tab" aria-selected="false" title="Your calm (J)">
+      <svg viewBox="0 0 24 24"><path d="M5 20v-6M11 20V8M17 20v-9M3 20h18"/></svg>
+      <span>Your calm</span>
+    </button>
+  </nav>
+
+  <!-- main panes -->
+  <main id="main">
+    <!-- ============ HOME ============ -->
+    <section class="pane active" id="pane-home" role="tabpanel" aria-label="Home">
+      <p class="eyebrow" id="greeting">Good evening</p>
+      <h1>Breathe in.<br><em>Let go.</em></h1>
+
+      <div class="card glass quote-card">\n        <blockquote id="quote">Stillness is not the absence of motion — it is the presence of you.</blockquote>
+        <div class="row spread mt-12">
+          <span class="muted" id="quoteAuthor">Serene</span>
+          <div class="actions">
+            <button class="chip" id="shuffleQuote">Shuffle</button>
+            <button class="chip" id="copyQuote">Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid quick-grid">
+        <button class="card glass quick-card tilt" data-goto="focus">
+          <span class="quick-icon">◷</span>
+          <span class="quick-title">Focus</span>
+          <span class="quick-sub muted">Pomodoro &amp; deep work</span>
+        </button>
+        <button class="card glass quick-card tilt" data-goto="breathe">
+          <span class="quick-icon">❋</span>
+          <span class="quick-title">Breathe</span>
+          <span class="quick-sub muted">Guided breathing</span>
+        </button>
+        <button class="card glass quick-card tilt" data-goto="sounds">
+          <span class="quick-icon">≋</span>
+          <span class="quick-title">Ambience</span>
+          <span class="quick-sub muted">Layered soundscapes</span>
+        </button>
+      </div>
+
+      <div class="row now-playing">
+        <span class="dot" id="npDot"></span>
+        <span id="nowPlaying">Ambience idle — press a sound to begin</span>
+      </div>
+    </section>
+
+    <!-- ============ SOUNDS ============ -->
+    <section class="pane" id="pane-sounds" role="tabpanel" aria-label="Ambience">
+      <h2>Ambience</h2>
+      <p class="sub">Layer sounds until the world goes quiet. Everything is synthesized in your browser — no files, no ads, works offline.</p>
+
+      <div class="preset-row" id="soundPresets" aria-label="Sound presets"></div>
+
+      <div class="grid sound-grid" id="soundGrid"></div>
+
+      <div class="card glass mixer-card">
+        <div class="row spread">
+          <label for="masterVol">Master volume</label>
+          <span class="muted" id="masterVal">70%</span>
+        </div>
+        <input type="range" id="masterVol" min="0" max="100" value="70" aria-label="Master volume">
+        <p class="sub mt-8">Tip: press <kbd>1</kbd>–<kbd>8</kbd> to toggle sounds, <kbd>M</kbd> to mute.</p>
+      </div>
+    </section>
+
+    <!-- ============ FOCUS ============ -->
+    <section class="pane" id="pane-focus" role="tabpanel" aria-label="Focus timer">
+      <h2>Focus</h2>
+      <p class="sub">One task. One breath at a time. The timer keeps perfect time, even in the background.</p>
+
+      <div class="preset-row" id="focusPresets"></div>
+      <div class="custom-focus" id="customFocus" hidden>
+        <label>Work (min) <input type="number" id="customWork" min="1" max="90" value="25"></label>
+        <label>Break (min) <input type="number" id="customBreak" min="1" max="30" value="5"></label>
+      </div>
+
+      <div class="card glass timer-wrap">
+        <div class="ring">
+          <svg viewBox="0 0 260 260" aria-hidden="true">
+            <circle class="ring-bg" cx="130" cy="130" r="118"/>
+            <circle class="ring-fg" id="ringFg" cx="130" cy="130" r="118"/>
+          </svg>
+          <div class="ring-center">
+            <span class="phase-chip" id="timerPhase">Work</span>
+            <div class="time" id="timeLeft" aria-live="polite">25:00</div>
+            <span class="muted small" id="timerHint">Press Space to start</span>
+          </div>
+        </div>
+        <div class="timer-controls">
+          <button class="btn primary" id="startPause">Start</button>
+          <button class="btn ghost" id="resetTimer">Reset</button>
+        </div>
+        <div class="row opts">
+          <label class="switch"><input type="checkbox" id="chimeToggle" checked><span>Completion chime</span></label>
+          <label class="switch"><input type="checkbox" id="notifyToggle"><span>Desktop notification</span></label>
+        </div>
+        <p class="sub mt-8" id="focusMeta">0 sessions today · 0 min focused</p>
+      </div>
+    </section>
+
+    <!-- ============ BREATHE ============ -->
+    <section class="pane" id="pane-breathe" role="tabpanel" aria-label="Breathing coach">
+      <h2>Breathe</h2>
+      <p class="sub">Follow the orb. In through the nose, out through the mouth. Three cycles is enough to feel it.</p>
+
+      <div class="preset-row" id="breathPresets"></div>
+
+      <div class="card glass breathe-wrap">
+        <div class="orb-stage">
+          <div class="orb" id="orb">
+            <span class="phase-label" id="phaseLabel">Ready</span>
+            <span class="phase-count" id="phaseCount" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="timer-controls">
+          <button class="btn primary" id="breathToggle">Begin</button>
+          <button class="btn ghost" id="breathReset">End</button>
+        </div>
+        <label class="switch center"><input type="checkbox" id="cueToggle" checked><span>Soft sound cues at each phase</span></label>
+        <p class="sub mt-8" id="breathMeta">0 cycles completed · 0 total</p>
+      </div>
+    </section>
+
+    <!-- ============ GARDEN ============ -->
+    <section class="pane" id="pane-garden" role="tabpanel" aria-label="Zen garden">
+      <h2>Zen Garden</h2>
+      <p class="sub">Drag to rake the sand. Patterns fade on their own — nothing here is meant to last.</p>
+      <div class="garden glass">
+        <canvas id="gardenCanvas" aria-label="Interactive zen garden — drag to rake"></canvas>
+        <button class="chip floating" id="gardenReset">Rake clean</button>
+      </div>
+    </section>
+
+    <!-- ============ STATS / SETTINGS ============ -->
+    <section class="pane" id="pane-stats" role="tabpanel" aria-label="Your calm">
+      <h2>Your calm</h2>
+      <p class="sub">A quiet record of the time you gave yourself.</p>
+
+      <div class="grid stat-grid">
+        <div class="card glass stat"><span class="stat-num" id="statFocusToday">0</span><span class="stat-label">minutes focused today</span></div>
+        <div class="card glass stat"><span class="stat-num" id="statFocusTotal">0</span><span class="stat-label">total minutes in focus</span></div>
+        <div class="card glass stat"><span class="stat-num" id="statBreath">0</span><span class="stat-label">breathing cycles completed</span></div>
+        <div class="card glass stat"><span class="stat-num" id="statMoods">0</span><span class="stat-label">mood check-ins logged</span></div>
+      </div>\n
+      <div class="card glass">
+        <h3>Mood — last 7 days</h3>
+        <div class="mood-strip" id="moodStrip"></div>
+      </div>
+
+      <div class="card glass">
+        <h3>How are you feeling right now?</h3>
+        <div class="mood-pick" id="moodPick">
+          <button data-mood="😄" title="Great">😄</button>
+          <button data-mood="🙂" title="Good">🙂</button>
+          <button data-mood="😌" title="Calm">😌</button>
+          <button data-mood="😕" title="Heavy">😕</button>
+          <button data-mood="😴" title="Tired">😴</button>
+        </div>
+      </div>
+
+      <div class="card glass settings">
+        <h3>Settings</h3>
+        <div class="setting-row">
+          <span>Sleep mode — dim the room and soften sounds after you go idle</span>
+          <label class="switch"><input type="checkbox" id="sleepSwitch" checked><span></span></label>
+        </div>
+        <div class="setting-row">
+          <span>Idle before sleep mode</span>
+          <select id="idleSelect">
+            <option value="60">1 minute</option>
+            <option value="120">2 minutes</option>
+            <option value="300" selected>5 minutes</option>
+            <option value="600">10 minutes</option>
+          </select>
+        </div>
+        <h3 class="mt-16">Your data</h3>
+        <p class="sub">Everything is stored on this device only. Take it with you, or start fresh.</p>
+        <div class="actions mt-8">
+          <button class="chip" id="exportBtn">Export backup</button>
+          <button class="chip" id="importBtn">Import backup</button>
+          <input type="file" id="importFile" accept="application/json" hidden>
+          <button class="chip danger" id="resetBtn">Reset all</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot muted">Serene · crafted for calm · press <kbd>?</kbd> for shortcuts</footer>
+
+  <!-- toasts -->
+  <div class="toast-wrap" id="toasts" aria-live="polite"></div>
+
+  <!-- help modal -->
+  <div class="modal-backdrop" id="helpModal" hidden>
+    <div class="modal glass" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
+      <div class="row spread">
+        <h3>Shortcuts</h3>
+        <button class="icon-btn" id="helpClose" aria-label="Close">✕</button>
+      </div>
+      <ul class="shortcut-list">
+        <li><kbd>H</kbd> Home &nbsp;·&nbsp; <kbd>S</kbd> Ambience &nbsp;·&nbsp; <kbd>T</kbd> Focus &nbsp;·&nbsp; <kbd>B</kbd> Breathe &nbsp;·&nbsp; <kbd>G</kbd> Garden &nbsp;·&nbsp; <kbd>J</kbd> Your calm</li>
+        <li><kbd>1</kbd>–<kbd>8</kbd> toggle sounds &nbsp;·&nbsp; <kbd>M</kbd> mute / unmute</li>
+        <li><kbd>Space</kbd> start / pause the focus timer (when on the Focus tab)</li>
+        <li><kbd>F</kbd> fullscreen &nbsp;·&nbsp; <kbd>?</kbd> show this panel &nbsp;·&nbsp; <kbd>Esc</kbd> close</li>
+      </ul>
+    </div>
+  </div>
+
+  <noscript><div class="noscript">Serene works best with JavaScript enabled.</div></noscript>
+  <script src="app.js"></script>
+</body>
+</html>

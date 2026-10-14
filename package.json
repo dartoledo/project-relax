@@ -1,0 +1,14 @@
+{
+  "name": "serene",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Serene — a relaxing pocket sanctuary (static web app)",
+  "type": "module",
+  "scripts": {
+    "test": "node test/smoke.mjs",
+    "start": "python -m http.server 8000"
+  },
+  "devDependencies": {
+    "jsdom": "^27.0.0"
+  }
+}

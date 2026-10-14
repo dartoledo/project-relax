@@ -1,0 +1,58 @@
+::ffff:127.0.0.1 - - [15/Oct/2026 01:07:38] "GET / HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [15/Oct/2026 01:07:38] "GET /app.js HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:07:50] "GET / HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:07:50] "GET /styles.css HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:07:50] "GET /app.js HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:07:50] "GET /manifest.webmanifest HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:07:50] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:07:50] "GET /icons/icon-192.png HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:07:50] "GET /index.html HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:07:50] "GET /icons/icon-512.png HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:07:53] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [15/Oct/2026 01:08:03] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [15/Oct/2026 01:08:04] code 404, message File not found
+::1 - - [15/Oct/2026 01:08:04] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:08:08] code 404, message File not found
+::1 - - [15/Oct/2026 01:08:08] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:08:09] code 404, message File not found
+::1 - - [15/Oct/2026 01:08:09] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:08:11] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [15/Oct/2026 01:08:21] code 404, message File not found
+::1 - - [15/Oct/2026 01:08:21] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:08:22] code 404, message File not found
+::1 - - [15/Oct/2026 01:08:22] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:08:23] code 404, message File not found
+::1 - - [15/Oct/2026 01:08:23] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:08:23] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [15/Oct/2026 01:08:24] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [15/Oct/2026 01:08:50] code 404, message File not found
+::1 - - [15/Oct/2026 01:08:50] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:08:51] code 404, message File not found
+::1 - - [15/Oct/2026 01:08:51] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:08:53] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [15/Oct/2026 01:09:48] code 404, message File not found
+::1 - - [15/Oct/2026 01:09:48] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:09:49] code 404, message File not found
+::1 - - [15/Oct/2026 01:09:49] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:09:49] code 404, message File not found
+::1 - - [15/Oct/2026 01:09:49] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:09:50] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [15/Oct/2026 01:09:50] code 404, message File not found
+::1 - - [15/Oct/2026 01:09:50] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:09:51] "GET /sw.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [15/Oct/2026 01:12:48] "GET /styles.css HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [15/Oct/2026 01:12:48] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:13:04] code 404, message File not found
+::1 - - [15/Oct/2026 01:13:04] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:13:05] code 404, message File not found
+::1 - - [15/Oct/2026 01:13:05] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+::1 - - [15/Oct/2026 01:13:06] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:13:06] "GET /app.js HTTP/1.1" 304 -
+::1 - - [15/Oct/2026 01:13:11] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [15/Oct/2026 01:13:25] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [15/Oct/2026 01:13:27] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [15/Oct/2026 01:14:07] "GET / HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:14:07] "GET /styles.css HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:14:07] "GET /app.js HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:14:07] "GET /manifest.webmanifest HTTP/1.1" 200 -
+::1 - - [15/Oct/2026 01:14:08] "GET /icons/icon-192.png HTTP/1.1" 200 -
