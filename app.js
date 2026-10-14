@@ -76,19 +76,37 @@ const SCENES = [
   { id: "foxMeadow",   name: "Fox Meadow",   file: "img/scene-fox-meadow.jpg" },
   { id: "mistyRidges", name: "Misty Ridges", file: "img/scene-alpine-lake.jpg" },
 ];
+/* dual-layer crossfade: the incoming photo loads into the hidden <img> while the
+   current one stays fully visible, then both fade — no blank flash, no background pop */
+const sceneImgs = [$("#sceneImg"), $("#sceneImg2")];
+let sceneFront = 0;
+function showSceneImage(file) {
+  const back = (sceneFront + 1) % 2;
+  const bImg = sceneImgs[back], fImg = sceneImgs[sceneFront];
+  if (bImg.getAttribute("src") === file && bImg.complete && bImg.naturalWidth && !bImg.classList.contains("loaded")) {
+    // already cached in the hidden layer — swap visibility, nothing to load
+    fImg._token = (fImg._token || 0) + 1; // invalidate any pending reveal on that layer
+    bImg.classList.add("loaded");
+    fImg.classList.remove("loaded");
+    sceneFront = back;
+    return;
+  }
+  const token = (bImg._token || 0) + 1; bImg._token = token;
+  if (bImg.getAttribute("src") !== file) bImg.src = file;
+  const reveal = () => {
+    if (bImg._token !== token) return; // a newer scene took over this layer
+    bImg.classList.add("loaded");
+    fImg.classList.remove("loaded");
+    sceneFront = back;
+  };
+  if (bImg.complete && bImg.naturalWidth) reveal();
+  else bImg.addEventListener("load", reveal, { once: true });
+}
 function selectScene(id, silent) {
   const sc = SCENES.find(s => s.id === id) || SCENES[1];
   S.scene = sc.id; save();
   document.body.classList.toggle("scene-photo", !!sc.file);
-  if (sc.file) {
-    const img = $("#sceneImg");
-    if (img.getAttribute("src") !== sc.file) {
-      img.classList.remove("loaded");
-      img.src = sc.file;
-      const show = () => img.classList.add("loaded");
-      if (img.complete && img.naturalWidth) show(); else img.addEventListener("load", show, { once: true });
-    }
-  }
+  if (sc.file) showSceneImage(sc.file);
   $$("#sceneGrid .scene-card").forEach(c => {
     const on = c.dataset.scene === sc.id;
     c.classList.toggle("active", on);
@@ -960,10 +978,12 @@ const flies = Array.from({ length: 34 }, () => ({
   sp: 0.0004 + Math.random() * 0.0012, ph: Math.random() * Math.PI * 2,
   drift: 0.3 + Math.random() * 0.7,
 }));
-let ffPar = { x: 0, y: 0 };
+/* eased parallax: the target moves with the cursor, but the layer drifts toward it
+   over ~1 s — a hard offset would make the whole backdrop lurch on every mouse move */
+let ffParT = { x: 0, y: 0 }, ffPar = { x: 0, y: 0 };
 window.addEventListener("pointermove", e => {
-  ffPar.x = (e.clientX / innerWidth - 0.5) * 26;
-  ffPar.y = (e.clientY / innerHeight - 0.5) * 18;
+  ffParT.x = (e.clientX / innerWidth - 0.5) * 12;
+  ffParT.y = (e.clientY / innerHeight - 0.5) * 8;
 }, { passive: true });
 function drawFlies(t) {
   if (!ffCtx) return;
@@ -972,13 +992,15 @@ function drawFlies(t) {
   if (ffCanvas.width !== Math.round(w * d)) { ffCanvas.width = Math.round(w * d); ffCanvas.height = Math.round(h * d); }
   ffCtx.setTransform(d, 0, 0, d, 0, 0);
   ffCtx.clearRect(0, 0, w, h);
+  ffPar.x += (ffParT.x - ffPar.x) * 0.03;
+  ffPar.y += (ffParT.y - ffPar.y) * 0.03;
   for (const f of flies) {
     if (!reducedMotion) {
       f.y -= f.sp * f.drift;
       f.x += Math.sin(t / 2400 + f.ph) * 0.00035;
       if (f.y < -0.05) { f.y = 1.05; f.x = Math.random(); }
     }
-    const a = 0.25 + 0.55 * (0.5 + 0.5 * Math.sin(t / 900 + f.ph));
+    const a = reducedMotion ? 0.5 : 0.25 + 0.55 * (0.5 + 0.5 * Math.sin(t / 900 + f.ph));
     const x = f.x * w - ffPar.x, y = f.y * h - ffPar.y;
     const g = ffCtx.createRadialGradient(x, y, 0, x, y, f.r * 5);
     g.addColorStop(0, `rgba(255, 248, 214, ${a})`);

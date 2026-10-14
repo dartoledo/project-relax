@@ -74,17 +74,20 @@ kbd {
   position: absolute; width: 55vmax; height: 55vmax; border-radius: 50%;
   filter: blur(60px); opacity: .5;
 }
-.aurora i:nth-child(1) { background: var(--glow-a); top: -20vmax; right: -10vmax; animation: drift1 34s ease-in-out infinite alternate; }
-.aurora i:nth-child(2) { background: var(--glow-b); bottom: -22vmax; left: -8vmax; animation: drift2 42s ease-in-out infinite alternate; }
+.aurora i:nth-child(1) { background: var(--glow-a); top: -20vmax; right: -10vmax; animation: drift1 52s ease-in-out infinite alternate; }
+.aurora i:nth-child(2) { background: var(--glow-b); bottom: -22vmax; left: -8vmax; animation: drift2 64s ease-in-out infinite alternate; }
 .aurora i:nth-child(3) {
   width: 38vmax; height: 38vmax; background: var(--accent); opacity: .12;
-  top: 30%; left: 45%; animation: drift3 50s ease-in-out infinite alternate;
+  top: 30%; left: 45%; animation: drift3 76s ease-in-out infinite alternate;
 }
-@keyframes drift1 { to { transform: translate(-9vmax, 7vmax) scale(1.15); } }
-@keyframes drift2 { to { transform: translate(8vmax, -6vmax) scale(1.08); } }
-@keyframes drift3 { to { transform: translate(-14vmax, 10vmax); } }
+/* slow, small-radius drift — the glow settles instead of roaming */
+@keyframes drift1 { to { transform: translate(-5vmax, 4vmax) scale(1.08); } }
+@keyframes drift2 { to { transform: translate(4vmax, -3vmax) scale(1.05); } }
+@keyframes drift3 { to { transform: translate(-7vmax, 5vmax); } }
 
-#fireflies { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+#fireflies { position: fixed; inset: 0; z-index: 1; pointer-events: none; transition: opacity 1.6s ease; }
+/* quiet the drifting specks over a photo so the backdrop reads as still */
+body.scene-photo #fireflies { opacity: .35; }
 
 .sleep-overlay {
   position: fixed; inset: 0; z-index: 6; pointer-events: none;
@@ -410,22 +413,22 @@ select {
 .scene-layer { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
 body:not(.scene-photo) .scene-layer { display: none; }
 .scene-layer img {
-  width: 100%; height: 100%; object-fit: cover;
-  opacity: 0; transition: opacity 1.1s ease;
-  transform-origin: 55% 45%;
-  animation: sceneDrift 46s ease-in-out infinite alternate;
-  filter: saturate(1.02) brightness(.86);
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transition: opacity 1.4s ease;
+  filter: saturate(1.04) brightness(.9); /* grade on the img itself — rasterized once, never re-rasterized */
+  /* still by design: no transform animation, so the photo is rock-stable (the glass backdrop-filter
+     over it stops boiling too). Crossfades are opacity-only, which composites cleanly. */
 }
 .scene-layer img.loaded { opacity: 1; }
 .scene-veil {
   position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(7,9,20,.45) 0%, rgba(7,9,20,.06) 34%, rgba(7,9,20,.18) 62%, rgba(7,9,20,.58) 100%);
 }
-@keyframes sceneDrift {
-  from { transform: scale(1.04) translate3d(0, 0, 0); }
-  to   { transform: scale(1.14) translate3d(-1.8%, -1.2%, 0); }
-}
-body.scene-photo .aurora { opacity: .25; transition: opacity 2s ease; }
+/* keep the aurora fully hidden under a photo — at 20 % it would glow through the
+   crossfade gap for a moment and read as a flash of instability */
+body.scene-photo .aurora { opacity: 0; transition: opacity 2s ease; }
+/* pause the blurred aurora blobs under a photo scene — frees GPU for the glass cards */
+body.scene-photo .aurora i { animation-play-state: paused; }
 
 /* ---------- scene picker cards ---------- */
 .scene-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin: 4px 0 26px; }
