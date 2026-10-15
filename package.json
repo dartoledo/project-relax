@@ -5,7 +5,8 @@
   "description": "Serene — a relaxing pocket sanctuary (static web app)",
   "type": "module",
   "scripts": {
-    "test": "node test/smoke.mjs",
+    "test": "node test/smoke.mjs && node test/functional.mjs",
+    "test:functional": "node test/functional.mjs",
     "start": "python -m http.server 8000"
   },
   "devDependencies": {

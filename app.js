@@ -392,7 +392,9 @@ class AudioEngine {
     }
 
     this.nodes[id] = {
-      stop() {
+      // arrow fn: `this` must stay the engine (a method shorthand would re-bind it to the node object,
+      // and `delete this.nodes[id]` would throw, aborting toggleSound()/applyPreset() mid-way)
+      stop: () => {
         timers.forEach(t => { clearTimeout(t); clearInterval(t); });
         stopFns.forEach(f => f());
         delete this.nodes[id];

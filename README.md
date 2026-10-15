@@ -35,8 +35,13 @@ python -m http.server 8000
 
 ```bash
 cd serene
-npm install            # installs jsdom (dev dependency)
-npm test               # runs the DOM smoke test suite
+npm install              # installs jsdom (dev dependency)
+npm test                 # runs both suites: smoke + functional
+npm run test:functional  # just the 20-test functional suite
 ```
 
-The smoke test boots the real page in jsdom and verifies: tab navigation, sound toggling + presets, focus timer start/pause/complete, breathing coach phases, zen-garden ripples, mood logging, stats rendering, theme switching, and JSON export.
+**Smoke suite** (`test/smoke.mjs`, 34 checks) — boots the real page in jsdom and verifies: tab navigation, sound toggling + presets, focus timer start/pause/complete, breathing coach phases, zen-garden ripples, mood logging, stats rendering, theme switching, and JSON export.
+
+**Functional suite** (`test/functional.mjs`, 20 numbered tests) — a second, independent harness that drives the UI end-to-end (clicks, keyboard, file input) against every feature: boot + greeting/quote, tab ARIA state, quick cards, sound toggling & preset layering, master volume, mute (`M`), focus presets + clamping, timer start/pause/reset, full work→break cycle, breathing cycles, zen garden, mood check-in, theme swatches, scene picker, sleep-mode settings, keyboard shortcuts, and a JSON export/import round-trip through the UI. It runs under a real `http://localhost/` origin (with disk-backed resource loading) so `localStorage` behaves like in the browser.
+
+Both suites exit non-zero on any failure, so they can gate CI or pre-push checks.

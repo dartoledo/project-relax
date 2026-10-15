@@ -1,5 +1,5 @@
 /* Serene — service worker (offline support) */
-const CACHE = "serene-v8";
+const CACHE = "serene-v9";
 const ASSETS = [
   "./",
   "./index.html",
